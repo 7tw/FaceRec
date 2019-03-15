@@ -74,20 +74,28 @@ def mytrain(x_train,y_train):
     hid = int(input('隐藏层神经元个数：'))#隐藏层神经元个数
     out = 1  #输出层神经元个数
 
-    w = np.random.randn(out,hid)
+    '''
+        开始构建网络
+        '''
+
+    w = np.random.randn(out,hid)                    #没标的w、b，指的是输出层的
     w = np.mat(w)
     b = np.mat(np.random.randn(out,1))
-    w_h = np.random.randn(hid,inn)
+    w_h = np.random.randn(hid,inn)                  #而这里标了_h, 指的是隐藏层
     w_h = np.mat(w_h)
     b_h = np.mat(np.random.randn(hid,1))
+
+    '''
+        开始训练网络
+            '''
 
     for i in range(step):
         #打乱训练样本
         r=np.random.permutation(60)
         x_train = x_train[:,r]
         y_train = y_train[:,r]
-        #mini_batch
-        for j in range(50):
+        #mini_batch思路。不过这里设置为了60（即总长）。等样本大起来后再说。
+        for j in range(60):
             x = np.mat(x_train[:,j])
             x = x.reshape((784,1))
             y = np.mat(y_train[:,j])
