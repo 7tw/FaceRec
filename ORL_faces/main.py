@@ -68,10 +68,10 @@ def mytrain(x_train,y_train):
     设置一个隐藏层，784-->隐藏层神经元个数-->1
     '''
 
-    step=int(input('mytrain迭代步数：'))
-    a=double(input('学习因子：'))
+    step=int(input('输入mytrain迭代步数：'))
+    a=double(input('输入学习因子：'))
     inn = 784  #输入神经元个数
-    hid = int(input('隐藏层神经元个数：'))#隐藏层神经元个数
+    hid = int(input('输入隐藏层神经元个数：'))#隐藏层神经元个数
     out = 1  #输出层神经元个数
 
     '''
@@ -94,14 +94,21 @@ def mytrain(x_train,y_train):
         r=np.random.permutation(60)
         x_train = x_train[:,r]
         y_train = y_train[:,r]
-        #mini_batch思路。不过这里设置为了60（即总长）。等样本大起来后再说。
-        for j in range(60):
+        #mini_batch思路
+        for j in range(30):
             x = np.mat(x_train[:,j])
             x = x.reshape((784,1))
             y = np.mat(y_train[:,j])
             y = y.reshape((1,1))
             hid_put = layerout(w_h,b_h,x)
             out_put = layerout(w,b,hid_put)
+
+            if out_put > 0.5:
+                error = 1 - out_put
+            else:
+                error = out_put - 0
+
+                print("第%d次训练，第%d次mini batch训练 的 误差为: %f" %(i+1,j+1,error))
 
             #更新公式的实现
             o_update = np.multiply(np.multiply((y-out_put),out_put),(1-out_put))
@@ -161,7 +168,7 @@ print("-----------------------训练结束--------------------------------------
 
 
 #测试
-print("--------------------测试女生-----------------------------------------")
+print("--------------------测试女性-----------------------------------------")
 
 #将人脸图片转化为28*28的灰度图片
 path = 'girltests'
@@ -183,7 +190,7 @@ for i in range(10):
     xx = x_test[:,i]
     xx = xx.reshape((784,1))
     mytest(xx,w,b,w_h,b_h)
-print("---------------------测试男生-----------------------------")
+print("---------------------测试男性-----------------------------")
 
 #将人脸图片转化为28*28的灰度图片
 path = 'boytests'
